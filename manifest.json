@@ -1,0 +1,22 @@
+{
+  "manifest_version": 2,
+  "name": "Qiita infinite scroll",
+  "version": "0.0.1",
+
+  "description": "Add infinite scroll feature to Qiita's feed",
+
+  "applications": {
+    "gecko": {
+      "id": "qiita-infinite-scroll@mozilla.org",
+      "strict_min_version": "46.0"
+    }
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["*://qiita.com/*"],
+      "js": ["qiita-infinite-scroll.js"],
+      "run_at": "document_start"
+    }
+  ]
+}
