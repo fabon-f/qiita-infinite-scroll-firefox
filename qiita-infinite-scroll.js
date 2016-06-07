@@ -6,7 +6,6 @@ window.addEventListener("load", () => {
         return;
     }
     const observer = new MutationObserver(mutations => {
-        console.log("hoge");
         htmlHeight = document.documentElement.scrollHeight;
     });
     observer.observe(document.getElementsByClassName("activities")[0], {
