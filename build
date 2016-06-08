@@ -1,0 +1,2 @@
+#!/bin/sh
+zip -R qiita-infinite-scroll.zip manifest.json qiita-infinite-scroll.js README.md LICENSE
