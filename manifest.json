@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Qiita infinite scroll",
-  "version": "0.0.1",
+  "version": "0.0.2",
 
   "description": "Add infinite scroll feature to Qiita's feed",
 
