@@ -1,52 +1,19 @@
 "use strict";
 
-const getActiveFeedPane = () => {
+const getActivities = wrapper => {
     return new Promise(resolve => {
-        const activePane = document.querySelector(".feedActivities > .active");
-        if (activePane !== null) {
-            resolve(activePane);
-        } else {
-            const feedActivityWrapper = document.querySelector(".feedActivities");
-            const observer = new MutationObserver(records => {
-                for (let record of records) {
-                    if (record.target.parentNode === feedActivityWrapper && record.target.classList.contains("active")) {
+        const observer = new MutationObserver(mutations => {
+            for (let mutation of mutations) {
+                for (let addedNode of mutation.addedNodes) {
+                    if (addedNode.classList && addedNode.classList.contains("activities")) {
                         observer.disconnect();
-                        resolve(record.target);
+                        resolve(addedNode);
                         return;
                     }
                 }
-            });
-            observer.observe(feedActivityWrapper, {
-                childList: false,
-                attributes: true,
-                characterData: false,
-                subtree: true
-            });
-        }
-    });
-};
-
-const getActivity = (activityFeedPane) => {
-    return new Promise(resolve => {
-        if (activityFeedPane.querySelector(".activities") !== null) {
-            resolve(activityFeedPane.querySelector(".activities"));
-            return;
-        }
-        const observer = new MutationObserver(records => {
-            for (let record of records) {
-                if (record.target.classList.contains("activities")) {
-                    observer.disconnect();
-                    resolve(record.target);
-                    return;
-                }
             }
         });
-        observer.observe(activityFeedPane, {
-            childList: true,
-            attributes: false,
-            characterData: false,
-            subtree: true
-        });
+        observer.observe(wrapper, { childList: true, subtree: true });
     });
 };
 
@@ -73,10 +40,15 @@ const infiniteScroll = activities => {
 };
 
 const init = () => {
-    getActiveFeedPane().then(activeFeedPane => {
-        return getActivity(activeFeedPane);
-    }).then(activities => {
+    const activities = document.querySelector(".activities");
+    if (activities !== null) {
         infiniteScroll(activities);
-    });
+        return;
+    }
+    const wrapper = document.querySelector(".feedActivities");
+    if (wrapper === null) {
+        return;
+    }
+    getActivities(wrapper).then(activities => infiniteScroll(activities));
 };
 document.addEventListener("DOMContentLoaded", init);
