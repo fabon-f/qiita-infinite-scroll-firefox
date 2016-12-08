@@ -36,7 +36,7 @@ const infiniteScroll = activities => {
             if (moreButton === null) { return; }
             moreButton.click();
         }
-    });
+    }, { passive: true });
 };
 
 const init = () => {
